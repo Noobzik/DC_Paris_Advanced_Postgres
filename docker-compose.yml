@@ -1,0 +1,42 @@
+services:
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: example
+  
+  sqlpad:
+    image: sqlpad/sqlpad:7.5
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      SQLPAD_AUTH_DISABLED: 'true'
+      SQLPAD_AUTH_DISABLED_DEFAULT_ROLE: 'admin'
+      SQLPAD_APP_LOG_LEVEL: debug
+      SQLPAD_WEB_LOG_LEVEL: warn
+      SQLPAD_CONNECTIONS__psql__name: psql
+      SQLPAD_CONNECTIONS__psql__driver: postgres
+      SQLPAD_CONNECTIONS__psql__host: db
+      SQLPAD_CONNECTIONS__psql__username: postgres
+      SQLPAD_CONNECTIONS__psql__password: example
+      SQLPAD_CONNECTIONS__psql__multiStatementTransactionEnabled: 'true'
+      SQLPAD_CONNECTIONS__psql__idleTimeoutSeconds: 86400
+
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 8080:8080
