@@ -60,7 +60,7 @@ INSERT INTO audit_resultats
 VALUES (USER_NAME(), GETDATE(), 'INSERT', INSERTED.NUM_ELEVE, INSERTED.NUM_COURS, INSERTED.POINTS);
 ```
 
-5. Confidentialité: On souhaite que seul l'utilisateur 'GrandChef' puisse augmenter les salaires des professeurs de plus de 20%. Le trigger doit retourner une erreur (No -20002) et le message 'Modification interdite' si la condition n’est pas respectée.
+5. Confidentialité: On souhaite que seul l'utilisateur 'GrandChef' puisse augmenter les salaires des professeurs de plus de 20%. Le trigger doit retourner une erreur (No -20002) et le message 'Modification interdite' si la condition n’est pas respectée. Trouvez un moyen de contourner la limitation pour afficher un numéro d'erreur sous postgres.
 
 #### Fonctions et procédures
 * Créez une fonction `fn_moyenne` calculant la moyenne d’un étudiant passé en paramètre.
